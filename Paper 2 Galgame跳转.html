@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Paper2Galgame</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft YaHei",sans-serif}
+
+.intro-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg,#f093fb 0%,#f5576c 50%,#4facfe 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+.intro-screen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.glass-ton {
+  padding: 40px 80px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.ton-text {
+  font-size: 100px;
+  font-weight: bold;
+  font-family: 'Brush Script MT', 'Segoe Script', cursive;
+  background: linear-gradient(90deg, #ff4a8e, #ffd000, #4a9eff, #ff4a8e);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: flow 3s linear forwards;
+}
+
+@keyframes flow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+body{
+  width:100vw;
+  height:100vh;
+  background:linear-gradient(135deg,#f093fb 0%,#f5576c 50%,#4facfe 100%);
+  overflow:hidden;
+  position:relative;
+  cursor:pointer
+}
+.glass-container{
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(255,255,255,0.2);
+  backdrop-filter:blur(15px);
+  -webkit-backdrop-filter:blur(15px);
+  border:1px solid rgba(255,255,255,0.3);
+  z-index:1
+}
+.container{
+  width:100%;height:100%;
+  padding:2rem 4rem;
+  position:relative;z-index:10;
+  opacity:0;
+  transition:opacity 0.8s ease 0.3s
+}
+.container.active{opacity:1}
+.sound-btn{display:none}
+.fullscreen-btn{
+  width:45px;height:45px;
+  background:rgba(255,255,255,0.4);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+  cursor:pointer;
+  position:absolute;top:30px;right:30px;z-index:40;
+  border:1px solid rgba(255,255,255,0.5)
+}
+.title{
+  position:absolute;top:22%;left:8%;
+  font-size:90px;font-weight:900;
+  line-height:1.1;letter-spacing:2px;
+  text-shadow:0 2px 10px rgba(0,0,0,0.1)
+}
+.title-paper,.title-2,.title-galgame{
+  opacity:0;transform:translateY(20px);
+  transition:all 0.8s cubic-bezier(0.25,1,0.5,1);
+  display:inline-block
+}
+.title-paper{
+  color:#ff4a8e;
+  text-shadow:2px 2px 0 #fff,4px 4px 8px rgba(0,0,0,0.1);
+  transition-delay:0.3s
+}
+.title-2{
+  color:#ffd000;
+  font-size:110px;
+  vertical-align:middle;margin:0 -10px;
+  transition-delay:0.8s
+}
+.title-galgame{
+  color:#4a9eff;
+  text-shadow:2px 2px 0 #fff,4px 4px 8px rgba(0,0,0,0.1);
+  transition-delay:1.3s
+}
+.non-official-tip{
+  position:absolute;top:42%;left:8%;
+  font-size:24px;font-weight:bold;
+  background:linear-gradient(90deg,#ff4a8e,#4a9eff);
+  -webkit-background-clip:text;background-clip:text;
+  color:transparent;
+  text-shadow:1px 1px 2px rgba(0,0,0,0.05);
+  opacity:0;transform:translateY(20px);
+  transition:all 0.8s cubic-bezier(0.25,1,0.5,1);
+  transition-delay:1.8s
+}
+.title-part.active{opacity:1;transform:translateY(0)}
+.non-official-tip.active{opacity:1;transform:translateY(0)}
+.btn-group{
+  position:absolute;bottom:60px;left:50%;
+  transform:translateX(-50%);
+  display:flex;gap:12px;z-index:20
+}
+.btn{
+  padding:22px 42px;
+  background:rgba(255,255,255,0.4);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.5);
+  border-radius:12px;
+  font-size:18px;font-weight:bold;color:#333;
+  box-shadow:0 4px 12px rgba(0,0,0,0.1);
+  cursor:pointer;
+  transition:all 0.2s ease;
+  white-space:nowrap;text-decoration:none;
+  z-index:30;position:relative
+}
+.btn:hover{transform:translateY(-3px);box-shadow:0 6px 16px rgba(0,0,0,0.15);background:rgba(255,255,255,0.6)}
+.btn:active{transform:translateY(1px);box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+.btn-main{background:rgba(255,74,142,0.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:white;font-size:20px;border:1px solid rgba(255,255,255,0.5)}
+.btn-main:hover{background:rgba(255,74,142,0.9)}
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);backdrop-filter:blur(4px);z-index:999;display:none;align-items:center;justify-content:center;cursor:auto}
+.modal-panel{background:rgba(255,255,255,0.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);width:90%;max-width:600px;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,0.15);padding:24px;position:relative;max-height:90vh;overflow-y:auto;border:1px solid rgba(255,255,255,0.8)}
+.modal-close-btn{position:absolute;top:16px;right:16px;width:28px;height:28px;border:none;background:transparent;font-size:20px;color:#999;cursor:pointer}
+.modal-close-btn:hover{color:#333}
+.modal-save-btn{width:100%;max-width:180px;margin-left:auto;padding:12px 0;background:rgba(0,123,255,0.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:white;border:1px solid rgba(255,255,255,0.5);border-radius:8px;font-size:16px;cursor:pointer;transition:all 0.2s;display:block}
+.modal-save-btn:hover{background:rgba(0,105,217,0.9)}
+.modal-save-btn:disabled{background:rgba(0,123,255,0.5);cursor:not-allowed}
+.modal-title{font-size:24px;font-weight:bold;color:#e63946;margin-bottom:24px}
+.modal-option-group{display:none}
+.modal-language-group{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #f5f5f5}
+.modal-language-title{display:flex;align-items:center;gap:8px;font-size:16px;color:#333;margin-bottom:12px}
+.modal-lang-btn-group{display:flex;gap:12px;flex-wrap:wrap}
+.modal-lang-btn{padding:8px 16px;border:1px solid #dee2e6;border-radius:8px;background:rgba(255,255,255,0.7);font-size:14px;cursor:pointer;transition:all 0.2s}
+.modal-lang-btn.active{background:#28a745;color:white;border-color:#28a745}
+.modal-lang-btn:hover:not(.active){border-color:#adb5bd;background:rgba(255,255,255,0.9)}
+.music-tip{display:none}
+
+@media (max-width: 768px) {
+  .ton-text {font-size: 60px;}
+  .glass-ton {padding: 20px 40px;}
+  .container{padding:1.5rem;}
+  .title {font-size: 50px;top:15%;left:5%;}
+  .title-2 {font-size:60px;margin:0 -5px;}
+  .non-official-tip {font-size:18px;top:35%;left:5%;}
+  .btn-group {
+    flex-direction:column;
+    bottom:20px;
+    gap:8px;
+    width:90%;
+  }
+  .btn {padding:16px 24px;font-size:16px;}
+  .fullscreen-btn {width:40px;height:40px;top:20px;right:20px;}
+  .modal-panel{padding:20px;}
+  .modal-title{font-size:22px;margin-bottom:20px;}
+}
+
+@media (max-width: 480px) {
+  .ton-text {font-size: 40px;}
+  .glass-ton {padding: 15px 30px;}
+  .container{padding:1rem;}
+  .title {font-size: 35px;top:10%;left:5%;}
+  .title-2 {font-size:45px;margin:0 -3px;}
+  .non-official-tip {font-size:16px;top:30%;left:5%;}
+  .btn {padding:12px 20px;font-size:14px;}
+  .fullscreen-btn {width:35px;height:35px;}
+  .modal-panel{padding:16px;}
+  .modal-title{font-size:20px;margin-bottom:16px;}
+  .modal-lang-btn{padding:6px 12px;font-size:13px;}
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .title {font-size: 40px;top:10%;}
+  .non-official-tip {font-size:16px;top:25%;}
+  .btn-group {bottom:10px;}
+  .btn {padding:10px 18px;font-size:14px;}
+}
+</style>
+</head>
+<body>
+
+<div class="intro-screen" id="introScreen">
+  <div class="glass-ton">
+    <span class="ton-text">TON</span>
+  </div>
+</div>
+
+<div class="glass-container"></div>
+<div class="container">
+<div class="fullscreen-btn" id="fullscreenBtn">⛶</div>
+<div class="title" id="mainTitle">
+<span class="title-paper title-part">Paper</span>
+<span class="title-2 title-part">2</span>
+<span class="title-galgame title-part">Galgame</span>
+</div>
+<div class="non-official-tip" id="tipText">本网站非官方网站</div>
+<div class="btn-group">
+<a href="https://paper2gal.com" class="btn btn-main jump-btn" target="_blank">跳转到官方网站QWQ</a>
+<a href="https://www.bilibili.com/video/BV1HSU8B3EcK/" class="btn jump-btn" target="_blank">查看B站相关视频</a>
+<a href="https://www.bilibili.com/video/BV1UT42167xb/" class="btn jump-btn" target="_blank">我想创建免费网站</a>
+<a href="https://www.bilibili.com/video/BV1b3cEzQEHb/" class="btn jump-btn" target="_blank">丹尼尔</a>
+<button class="btn" data-modal="configModal">设置</button>
+<button class="btn" id="startGameBtn">emm，没什么，无聊加的</button>
+</div>
+</div>
+
+<div class="modal-overlay" id="configModal">
+<div class="modal-panel">
+<button class="modal-close-btn" onclick="closeModal('configModal')">×</button>
+<div class="modal-title" data-i18n="system_config">SYSTEM CONFIG</div>
+<div class="modal-language-group">
+<div class="modal-language-title">
+<span class="modal-option-icon">🌐</span>
+<span data-i18n="language">语言</span> (Language)
+</div>
+<div class="modal-lang-btn-group">
+<button class="modal-lang-btn active" data-lang="zh">中文</button>
+<button class="modal-lang-btn" data-lang="en">English</button>
+<button class="modal-lang-btn" data-lang="ja">日本語</button>
+<button class="modal-lang-btn" data-lang="ru">Русский</button>
+</div>
+</div>
+<button class="modal-save-btn" id="saveSettingsBtn" data-i18n="save_close">点击此处关闭QWQ</button>
+</div>
+</div>
+
+<script>
+const i18n = {
+zh:{system_config:"系统设置",language:"语言",save_close:"保存并关闭",start_game:"emm，没什么，无聊加的",welcome:"欢迎来到 Paper2Galgame 的世界~ 很高兴认识你！"},
+en:{system_config:"SYSTEM CONFIG",language:"Language",save_close:"Save and Close",start_game:"Start Game",welcome:"Welcome to the world of Paper2Galgame~ Nice to meet you!"},
+ja:{system_config:"システム設定",language:"言語",save_close:"保存して閉じる",start_game:"ゲーム開始",welcome:"Paper2Galgame の世界へようこそ～ はじめまして！"},
+ru:{system_config:"НАСТРОЙКИ СИСТЕМЫ",language:"Язык",save_close:"Сохранить и закрыть",start_game:"Начать игру",welcome:"Добро пожаловать в мир Paper2Galgame~ Рад вас видеть!"}
+};
+let settings={currentLang:'zh'};
+
+function jumpAndClose(url) {
+  window.open(url, '_blank');
+}
+
+function changeLanguage(lang){
+  settings.currentLang=lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.getAttribute('data-i18n');el.textContent=i18n[lang][key]});
+  document.getElementById('startGameBtn').textContent=i18n[lang]['start_game'];
+}
+
+function openModal(modalId){document.getElementById(modalId).style.display='flex'}
+function closeModal(modalId){document.getElementById(modalId).style.display='none'}
+
+function toggleFullscreen(){
+  if(!document.fullscreenElement){document.documentElement.requestFullscreen().catch(err=>{});document.getElementById('fullscreenBtn').textContent='⎗'}
+  else{document.exitFullscreen();document.getElementById('fullscreenBtn').textContent='⛶'}
+}
+
+function saveSettings(){
+  const saveBtn = document.getElementById('saveSettingsBtn');
+  saveBtn.disabled = true;
+  localStorage.setItem('paper2gal_settings', JSON.stringify(settings));
+  setTimeout(()=>{saveBtn.disabled=false;closeModal('configModal');},800);
+}
+
+function startGame(){alert(i18n[settings.currentLang]['welcome'])}
+
+window.addEventListener('load',()=>{
+  const savedSettings = localStorage.getItem('paper2gal_settings');
+  if(savedSettings){
+    settings=JSON.parse(savedSettings);
+    document.querySelectorAll(`.modal-lang-btn[data-lang="${settings.currentLang}"]`).forEach(b=>b.classList.add('active'));
+    changeLanguage(settings.currentLang);
+  }
+
+  setTimeout(()=>{
+    document.getElementById('introScreen').classList.add('fade-out');
+    setTimeout(()=>{
+      document.getElementById('introScreen').style.display='none';
+      document.querySelector('.container').classList.add('active');
+      setTimeout(()=>{
+        document.querySelectorAll('.title-part').forEach(el=>el.classList.add('active'));
+        document.getElementById('tipText').classList.add('active');
+      },300);
+    },1000);
+  },3000);
+
+  document.querySelector('.btn[data-modal="configModal"]').onclick=()=>openModal('configModal');
+  document.querySelectorAll('.modal-lang-btn').forEach(btn=>{
+    btn.onclick=()=>{
+      document.querySelectorAll('.modal-lang-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      changeLanguage(btn.dataset.lang);
+    }
+  });
+
+  document.getElementById('fullscreenBtn').onclick=toggleFullscreen;
+  document.getElementById('startGameBtn').onclick=startGame;
+  document.getElementById('saveSettingsBtn').onclick=saveSettings;
+
+  document.querySelectorAll('.jump-btn').forEach(btn=>{
+    btn.onclick=(e)=>{
+      e.preventDefault();
+      jumpAndClose(btn.href);
+    }
+  });
+
+  changeLanguage(settings.currentLang);
+});
+</script>
+</body>
+</html>
