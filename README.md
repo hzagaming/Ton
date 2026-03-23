@@ -3,7 +3,7 @@ This is the LINK to Paper2gal:
 
 
 🔗 Live Website:  
-https://hzagaming.github.io/Ton/
+https://hzagaming.github.io/Paper2galgame-Link/
 
 This project is designed as a lightweight and accessible web entry point.  
 It demonstrates basic web deployment using GitHub Pages and serves as a functional navigation page.
