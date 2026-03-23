@@ -1,6 +1,6 @@
-# Ton
+This is the LINK to Paper2gal:
+<img width="1463" height="808" alt="image" src="https://github.com/user-attachments/assets/d970298f-2a54-4f00-ad9d-fbf9e7e7838c" />
 
-Ton is a simple web project that provides direct access to the main HTML page.
 
 🔗 Live Website:  
 https://hzagaming.github.io/Ton/
