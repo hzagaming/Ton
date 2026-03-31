@@ -6,149 +6,61 @@
 <title>Paper2Galgame</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft YaHei",sans-serif}
-
-.intro-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(135deg,#f093fb 0%,#f5576c 50%,#4facfe 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 99999;
-  opacity: 1;
-  transition: opacity 1s ease;
-}
-.intro-screen.fade-out {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.glass-ton {
-  padding: 40px 80px;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.2);
-}
-
-.ton-text {
-  font-size: 100px;
-  font-weight: bold;
-  font-family: 'Brush Script MT', 'Segoe Script', cursive;
-  background: linear-gradient(90deg, #ff4a8e, #ffd000, #4a9eff, #ff4a8e);
-  background-size: 300% 100%;
-  -webkit-background-clip: text;
-  color: transparent;
-  animation: flow 3s linear forwards;
-}
-
-@keyframes flow {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 300% 50%; }
-}
-
-body{
-  width:100vw;
-  height:100vh;
-  background:linear-gradient(135deg,#f093fb 0%,#f5576c 50%,#4facfe 100%);
-  overflow:hidden;
-  position:relative;
-  cursor:pointer
-}
-.glass-container{
-  position:absolute;
-  top:0;left:0;
-  width:100%;height:100%;
-  background:rgba(255,255,255,0.2);
-  backdrop-filter:blur(15px);
-  -webkit-backdrop-filter:blur(15px);
-  border:1px solid rgba(255,255,255,0.3);
-  z-index:1
-}
-.container{
-  width:100%;height:100%;
-  padding:2rem 4rem;
-  position:relative;z-index:10;
-  opacity:0;
-  transition:opacity 0.8s ease 0.3s
-}
+.intro-screen{position:fixed;top:0;left:0;width:100vw;height:100vh;background:linear-gradient(135deg,#f093fb 0%,#f5576c 50%,#4facfe 100%);display:flex;align-items:center;justify-content:center;z-index:99999;opacity:1;transition:opacity 1s ease}
+.intro-screen.fade-out{opacity:0;pointer-events:none}
+.glass-ton{padding:40px 80px;background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:20px;border:1px solid rgba(255,255,255,0.2)}
+.ton-text{font-size:100px;font-weight:bold;font-family:'Brush Script MT','Segoe Script',cursive;background:linear-gradient(90deg,#ff4a8e,#ffd000,#4a9eff,#ff4a8e);background-size:300% 100%;-webkit-background-clip:text;color:transparent;animation:flow 3s linear forwards}
+@keyframes flow{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+body{width:100vw;height:100vh;background:linear-gradient(135deg,#f093fb 0%,#f5576c 50%,#4facfe 100%);overflow:hidden;position:relative;cursor:pointer}
+.glass-container{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.2);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid rgba(255,255,255,0.3);z-index:1}
+.container{width:100%;height:100%;padding:2rem 4rem;position:relative;z-index:10;opacity:0;transition:opacity 0.8s ease 0.3s}
 .container.active{opacity:1}
 .sound-btn{display:none}
-.fullscreen-btn{
-  width:45px;height:45px;
-  background:rgba(255,255,255,0.4);
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
+.fullscreen-btn{width:45px;height:45px;background:rgba(255,255,255,0.4);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:8px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.1);cursor:pointer;position:absolute;top:30px;right:30px;z-index:40;border:1px solid rgba(255,255,255,0.5)}
+.title{position:absolute;top:22%;left:8%;font-size:90px;font-weight:900;line-height:1.1;letter-spacing:2px;text-shadow:0 2px 10px rgba(0,0,0,0.1);display:flex;align-items:center;gap:20px}
+.title-paper,.title-2,.title-galgame{opacity:0;transform:translateY(20px);transition:all 0.8s cubic-bezier(0.25,1,0.5,1);display:inline-block}
+.title-paper{color:#ff4a8e;text-shadow:2px 2px 0 #fff,4px 4px 8px rgba(0,0,0,0.1);transition-delay:0.3s}
+.title-2{color:#ffd000;font-size:110px;vertical-align:middle;margin:0 -10px;transition-delay:0.8s}
+.title-galgame{color:#4a9eff;text-shadow:2px 2px 0 #fff,4px 4px 8px rgba(0,0,0,0.1);transition-delay:1.3s}
+/* 新增：Galgame右侧图片样式 */
+.galgame-img-box{
+  position:relative;
+  width:120px;
+  height:120px;
+  border-radius:15px;
+  overflow:hidden;
+  opacity:0;
+  transform:translateY(20px);
+  transition:all 0.8s cubic-bezier(0.25,1,0.5,1);
+  transition-delay:1.6s;
+  border:2px solid rgba(255,255,255,0.8);
+  box-shadow:0 4px 15px rgba(0,0,0,0.1);
+}
+.galgame-img-box.active{opacity:1;transform:translateY(0)}
+.galgame-img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+/* 图片上的Ton标注 */
+.ton-label{
+  position:absolute;
+  top:5px;
+  left:5px;
+  font-size:18px;
+  font-weight:bold;
+  color:white;
+  text-shadow:1px 1px 3px rgba(0,0,0,0.8);
+  background:rgba(0,0,0,0.4);
+  padding:2px 8px;
   border-radius:8px;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 2px 8px rgba(0,0,0,0.1);
-  cursor:pointer;
-  position:absolute;top:30px;right:30px;z-index:40;
-  border:1px solid rgba(255,255,255,0.5)
+  user-select:none;
 }
-.title{
-  position:absolute;top:22%;left:8%;
-  font-size:90px;font-weight:900;
-  line-height:1.1;letter-spacing:2px;
-  text-shadow:0 2px 10px rgba(0,0,0,0.1)
-}
-.title-paper,.title-2,.title-galgame{
-  opacity:0;transform:translateY(20px);
-  transition:all 0.8s cubic-bezier(0.25,1,0.5,1);
-  display:inline-block
-}
-.title-paper{
-  color:#ff4a8e;
-  text-shadow:2px 2px 0 #fff,4px 4px 8px rgba(0,0,0,0.1);
-  transition-delay:0.3s
-}
-.title-2{
-  color:#ffd000;
-  font-size:110px;
-  vertical-align:middle;margin:0 -10px;
-  transition-delay:0.8s
-}
-.title-galgame{
-  color:#4a9eff;
-  text-shadow:2px 2px 0 #fff,4px 4px 8px rgba(0,0,0,0.1);
-  transition-delay:1.3s
-}
-.non-official-tip{
-  position:absolute;top:42%;left:8%;
-  font-size:24px;font-weight:bold;
-  background:linear-gradient(90deg,#ff4a8e,#4a9eff);
-  -webkit-background-clip:text;background-clip:text;
-  color:transparent;
-  text-shadow:1px 1px 2px rgba(0,0,0,0.05);
-  opacity:0;transform:translateY(20px);
-  transition:all 0.8s cubic-bezier(0.25,1,0.5,1);
-  transition-delay:1.8s
-}
+.non-official-tip{position:absolute;top:42%;left:8%;font-size:24px;font-weight:bold;background:linear-gradient(90deg,#ff4a8e,#4a9eff);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:1px 1px 2px rgba(0,0,0,0.05);opacity:0;transform:translateY(20px);transition:all 0.8s cubic-bezier(0.25,1,0.5,1);transition-delay:1.8s}
 .title-part.active{opacity:1;transform:translateY(0)}
 .non-official-tip.active{opacity:1;transform:translateY(0)}
-.btn-group{
-  position:absolute;bottom:60px;left:50%;
-  transform:translateX(-50%);
-  display:flex;gap:12px;z-index:20
-}
-.btn{
-  padding:22px 42px;
-  background:rgba(255,255,255,0.4);
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-  border:1px solid rgba(255,255,255,0.5);
-  border-radius:12px;
-  font-size:18px;font-weight:bold;color:#333;
-  box-shadow:0 4px 12px rgba(0,0,0,0.1);
-  cursor:pointer;
-  transition:all 0.2s ease;
-  white-space:nowrap;text-decoration:none;
-  z-index:30;position:relative
-}
+.btn-group{position:absolute;bottom:60px;left:50%;transform:translateX(-50%);display:flex;gap:12px;z-index:20}
+.btn{padding:22px 42px;background:rgba(255,255,255,0.4);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.5);border-radius:12px;font-size:18px;font-weight:bold;color:#333;box-shadow:0 4px 12px rgba(0,0,0,0.1);cursor:pointer;transition:all 0.2s ease;white-space:nowrap;text-decoration:none;z-index:30;position:relative}
 .btn:hover{transform:translateY(-3px);box-shadow:0 6px 16px rgba(0,0,0,0.15);background:rgba(255,255,255,0.6)}
 .btn:active{transform:translateY(1px);box-shadow:0 2px 8px rgba(0,0,0,0.1)}
 .btn-main{background:rgba(255,74,142,0.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:white;font-size:20px;border:1px solid rgba(255,255,255,0.5)}
@@ -169,12 +81,28 @@ body{
 .modal-lang-btn.active{background:#28a745;color:white;border-color:#28a745}
 .modal-lang-btn:hover:not(.active){border-color:#adb5bd;background:rgba(255,255,255,0.9)}
 .music-tip{display:none}
-
+#clock {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.9);
+  background: rgba(0,0,0,0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.2);
+  cursor: move;
+  z-index: 50;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  user-select: none;
+}
 @media (max-width: 768px) {
   .ton-text {font-size: 60px;}
   .glass-ton {padding: 20px 40px;}
   .container{padding:1.5rem;}
-  .title {font-size: 50px;top:15%;left:5%;}
+  .title {font-size: 50px;top:15%;left:5%;gap:10px;}
   .title-2 {font-size:60px;margin:0 -5px;}
   .non-official-tip {font-size:18px;top:35%;left:5%;}
   .btn-group {
@@ -187,13 +115,20 @@ body{
   .fullscreen-btn {width:40px;height:40px;top:20px;right:20px;}
   .modal-panel{padding:20px;}
   .modal-title{font-size:22px;margin-bottom:20px;}
+  #clock {
+    bottom: 20px;
+    left: 20px;
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+  .galgame-img-box{width:80px;height:80px;}
+  .ton-label{font-size:14px;}
 }
-
 @media (max-width: 480px) {
   .ton-text {font-size: 40px;}
-  .glass-ton {padding: 15px 30px;}
+  .glass-ton {padding:15px 30px;}
   .container{padding:1rem;}
-  .title {font-size: 35px;top:10%;left:5%;}
+  .title {font-size:35px;top:10%;left:5%;gap:8px;}
   .title-2 {font-size:45px;margin:0 -3px;}
   .non-official-tip {font-size:16px;top:30%;left:5%;}
   .btn {padding:12px 20px;font-size:14px;}
@@ -201,24 +136,29 @@ body{
   .modal-panel{padding:16px;}
   .modal-title{font-size:20px;margin-bottom:16px;}
   .modal-lang-btn{padding:6px 12px;font-size:13px;}
+  .galgame-img-box{width:60px;height:60px;}
+  .ton-label{font-size:12px;}
 }
-
 @media (max-height: 500px) and (orientation: landscape) {
-  .title {font-size: 40px;top:10%;}
+  .title {font-size:40px;top:10%;gap:10px;}
   .non-official-tip {font-size:16px;top:25%;}
   .btn-group {bottom:10px;}
   .btn {padding:10px 18px;font-size:14px;}
+  #clock {
+    bottom:10px;
+    left:20px;
+  }
+  .galgame-img-box{width:70px;height:70px;}
 }
 </style>
 </head>
 <body>
-
 <div class="intro-screen" id="introScreen">
   <div class="glass-ton">
-    <span class="ton-text">P2G</span>
+    <span class="ton-text">TON</span>
   </div>
 </div>
-
+<div id="clock"></div>
 <div class="glass-container"></div>
 <div class="container">
 <div class="fullscreen-btn" id="fullscreenBtn">⛶</div>
@@ -226,18 +166,22 @@ body{
 <span class="title-paper title-part">Paper</span>
 <span class="title-2 title-part">2</span>
 <span class="title-galgame title-part">Galgame</span>
+
+<div class="galgame-img-box" id="galgameImgBox">
+  <span class="ton-label">Ton</span>
+  <img src="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/5cb57da51f7240fead2c4092c1d5be7b.jpg~tplv-a9rns2rl98-image.png?lk3s=8e244e95&rcl=20260228230022396878FD27544592D119&rrcfp=dafada99&x-expires=2088514822&x-signature=9UoJ%2B31vp%2BN2XXOIvkpPUKLdV2o%3D" class="galgame-img" alt="Ton">
 </div>
-<div class="non-official-tip" id="tipText">本网站非官方网站</div>
+</div>
+<div class="non-official-tip" id="tipText">本网站非官方网站，仅作为跳转连接且ton-Tamkip保留所有权利©</div>
 <div class="btn-group">
 <a href="https://paper2gal.com" class="btn btn-main jump-btn" target="_blank">跳转到官方网站QWQ</a>
 <a href="https://www.bilibili.com/video/BV1HSU8B3EcK/" class="btn jump-btn" target="_blank">查看B站相关视频</a>
 <a href="https://www.bilibili.com/video/BV1UT42167xb/" class="btn jump-btn" target="_blank">我想创建免费网站</a>
 <a href="https://www.bilibili.com/video/BV1b3cEzQEHb/" class="btn jump-btn" target="_blank">丹尼尔</a>
 <button class="btn" data-modal="configModal">设置</button>
-<button class="btn" id="startGameBtn">emm，没什么，无聊加的</button>
+<button class="btn" id="startGameBtn">emm，无聊加的（点击此处查看）</button>
 </div>
 </div>
-
 <div class="modal-overlay" id="configModal">
 <div class="modal-panel">
 <button class="modal-close-btn" onclick="closeModal('configModal')">×</button>
@@ -249,51 +193,125 @@ body{
 </div>
 <div class="modal-lang-btn-group">
 <button class="modal-lang-btn active" data-lang="zh">中文</button>
-<button class="modal-lang-btn" data-lang="en">English</button>
-<button class="modal-lang-btn" data-lang="ja">日本語</button>
-<button class="modal-lang-btn" data-lang="ru">Русский</button>
+<button class="modal-lang-btn" data-lang="en">English（英语）</button>
+<button class="modal-lang-btn" data-lang="ja">日本語（日本语）</button>
+<button class="modal-lang-btn" data-lang="ru">Русский（俄语）</button>
 </div>
 </div>
 <button class="modal-save-btn" id="saveSettingsBtn" data-i18n="save_close">点击此处关闭QWQ</button>
 </div>
 </div>
-
 <script>
 const i18n = {
-zh:{system_config:"系统设置",language:"语言",save_close:"保存并关闭",start_game:"emm，没什么，无聊加的",welcome:"欢迎来到 Paper2Galgame 的世界~ 很高兴认识你！"},
+zh:{system_config:"语言设置",language:"语言",save_close:"保存并关闭",start_game:"emm，没什么，无聊加的",welcome:"欢迎来到 Paper2Galgame 的世界~ 很高兴认识你！"},
 en:{system_config:"SYSTEM CONFIG",language:"Language",save_close:"Save and Close",start_game:"Start Game",welcome:"Welcome to the world of Paper2Galgame~ Nice to meet you!"},
 ja:{system_config:"システム設定",language:"言語",save_close:"保存して閉じる",start_game:"ゲーム開始",welcome:"Paper2Galgame の世界へようこそ～ はじめまして！"},
 ru:{system_config:"НАСТРОЙКИ СИСТЕМЫ",language:"Язык",save_close:"Сохранить и закрыть",start_game:"Начать игру",welcome:"Добро пожаловать в мир Paper2Galgame~ Рад вас видеть!"}
 };
 let settings={currentLang:'zh'};
-
 function jumpAndClose(url) {
   window.open(url, '_blank');
 }
-
 function changeLanguage(lang){
   settings.currentLang=lang;
   document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.getAttribute('data-i18n');el.textContent=i18n[lang][key]});
   document.getElementById('startGameBtn').textContent=i18n[lang]['start_game'];
+  updateClock();
 }
-
 function openModal(modalId){document.getElementById(modalId).style.display='flex'}
 function closeModal(modalId){document.getElementById(modalId).style.display='none'}
-
 function toggleFullscreen(){
   if(!document.fullscreenElement){document.documentElement.requestFullscreen().catch(err=>{});document.getElementById('fullscreenBtn').textContent='⎗'}
   else{document.exitFullscreen();document.getElementById('fullscreenBtn').textContent='⛶'}
 }
-
 function saveSettings(){
   const saveBtn = document.getElementById('saveSettingsBtn');
   saveBtn.disabled = true;
   localStorage.setItem('paper2gal_settings', JSON.stringify(settings));
   setTimeout(()=>{saveBtn.disabled=false;closeModal('configModal');},800);
 }
-
 function startGame(){alert(i18n[settings.currentLang]['welcome'])}
-
+function updateClock() {
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth()+1).padStart(2, '0');
+  const d = String(now.getDate()).padStart(2, '0');
+  const h = String(now.getHours()).padStart(2, '0');
+  const i = String(now.getMinutes()).padStart(2, '0');
+  const s = String(now.getSeconds()).padStart(2, '0');
+  const week = ['日','一','二','三','四','五','六'][now.getDay()];
+  const weekI18n = {
+    zh: `周${week}`,
+    en: `Week ${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][now.getDay()]}`,
+    ja: `曜日${['日','月','火','水','木','金','土'][now.getDay()]}`,
+    ru: `Неделя ${['Вс','Пн','Вт','Ср','Чт','Пт','Сб'][now.getDay()]}`
+  };
+  document.getElementById('clock').innerText = 
+    `${y}-${m}-${d} ${weekI18n[settings.currentLang]} ${h}:${i}:${s}`;
+}
+function initDragClock() {
+  const clock = document.getElementById('clock');
+  let isDragging = false;
+  let offsetX, offsetY;
+  
+  clock.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    const rect = clock.getBoundingClientRect();
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+    clock.style.cursor = 'grabbing';
+    clock.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+  });
+  
+  document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const x = e.clientX - offsetX;
+    const y = e.clientY - offsetY;
+    clock.style.left = `${x}px`;
+    clock.style.top = `${y}px`;
+    clock.style.bottom = 'auto';
+    clock.style.right = 'auto';
+  });
+  
+  document.addEventListener('mouseup', () => {
+    if (isDragging) {
+      isDragging = false;
+      clock.style.cursor = 'move';
+      clock.style.boxShadow = '0 2px 8px rgba(0,0,0,0.08)';
+    }
+  });
+  
+  clock.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    isDragging = true;
+    const rect = clock.getBoundingClientRect();
+    const touch = e.touches[0];
+    offsetX = touch.clientX - rect.left;
+    offsetY = touch.clientY - rect.top;
+    clock.style.cursor = 'grabbing';
+    clock.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+  });
+  
+  document.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const touch = e.touches[0];
+    const x = touch.clientX - offsetX;
+    const y = touch.clientY - offsetY;
+    clock.style.left = `${x}px`;
+    clock.style.top = `${y}px`;
+    clock.style.bottom = 'auto';
+    clock.style.right = 'auto';
+  });
+  
+  document.addEventListener('touchend', () => {
+    if (isDragging) {
+      isDragging = false;
+      clock.style.cursor = 'move';
+      clock.style.boxShadow = '0 2px 8px rgba(0,0,0,0.08)';
+    }
+  });
+}
 window.addEventListener('load',()=>{
   const savedSettings = localStorage.getItem('paper2gal_settings');
   if(savedSettings){
@@ -301,7 +319,6 @@ window.addEventListener('load',()=>{
     document.querySelectorAll(`.modal-lang-btn[data-lang="${settings.currentLang}"]`).forEach(b=>b.classList.add('active'));
     changeLanguage(settings.currentLang);
   }
-
   setTimeout(()=>{
     document.getElementById('introScreen').classList.add('fade-out');
     setTimeout(()=>{
@@ -310,10 +327,11 @@ window.addEventListener('load',()=>{
       setTimeout(()=>{
         document.querySelectorAll('.title-part').forEach(el=>el.classList.add('active'));
         document.getElementById('tipText').classList.add('active');
+        // 图片同步显示动画
+        document.getElementById('galgameImgBox').classList.add('active');
       },300);
     },1000);
   },3000);
-
   document.querySelector('.btn[data-modal="configModal"]').onclick=()=>openModal('configModal');
   document.querySelectorAll('.modal-lang-btn').forEach(btn=>{
     btn.onclick=()=>{
@@ -322,19 +340,19 @@ window.addEventListener('load',()=>{
       changeLanguage(btn.dataset.lang);
     }
   });
-
   document.getElementById('fullscreenBtn').onclick=toggleFullscreen;
   document.getElementById('startGameBtn').onclick=startGame;
   document.getElementById('saveSettingsBtn').onclick=saveSettings;
-
   document.querySelectorAll('.jump-btn').forEach(btn=>{
     btn.onclick=(e)=>{
       e.preventDefault();
       jumpAndClose(btn.href);
     }
   });
-
   changeLanguage(settings.currentLang);
+  setInterval(updateClock, 1000);
+  updateClock();
+  initDragClock();
 });
 </script>
 </body>
